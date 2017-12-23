@@ -37,7 +37,6 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
 import {HAMMER_LOADER, HammerLoader} from '@angular/platform-browser';
@@ -203,7 +202,6 @@ export class MatTooltip implements OnDestroy, OnInit {
     private _overlay: Overlay,
     private _elementRef: ElementRef<HTMLElement>,
     private _scrollDispatcher: ScrollDispatcher,
-    private _viewContainerRef: ViewContainerRef,
     private _ngZone: NgZone,
     platform: Platform,
     private _ariaDescriber: AriaDescriber,
@@ -302,7 +300,8 @@ export class MatTooltip implements OnDestroy, OnInit {
     const overlayRef = this._createOverlay();
 
     this._detach();
-    this._portal = this._portal || new ComponentPortal(TooltipComponent, this._viewContainerRef);
+    overlayRef.setDirection(this._dir ? this._dir.value : 'ltr');
+    this._portal = this._portal || new ComponentPortal(TooltipComponent);
     this._tooltipInstance = overlayRef.attach(this._portal).instance;
     this._tooltipInstance.afterHidden()
       .pipe(takeUntil(this._destroyed))
