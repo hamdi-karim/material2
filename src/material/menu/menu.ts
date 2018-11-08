@@ -41,7 +41,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {merge, Observable, Subject, Subscription} from 'rxjs';
-import {startWith, switchMap, take} from 'rxjs/operators';
+import {startWith, switchMap, take, debounceTime} from 'rxjs/operators';
 import {matMenuAnimations} from './menu-animations';
 import {MatMenuContent} from './menu-content';
 import {MenuPositionX, MenuPositionY} from './menu-positions';
@@ -250,6 +250,28 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
     this._updateDirectDescendants();
     this._keyManager = new FocusKeyManager(this._directDescendantItems).withWrap().withTypeAhead();
     this._tabSubscription = this._keyManager.tabOut.subscribe(() => this.closed.emit('tab'));
+
+    // TODO(crisbeto): the `debounce` here should be removed since it's something
+    // that people have to flush in their tests. It'll be possible once we switch back
+    // to using a QueryList in #11720.
+    this._ngZone.runOutsideAngular(() => {
+      // Move focus to another item, if the active item is removed from the list.
+      // We need to debounce the callback, because multiple items might be removed
+      // in quick succession.
+      this._directDescendantItems.changes.pipe(debounceTime(50)).subscribe(items => {
+        const manager = this._keyManager;
+
+        if (manager.activeItem && items.indexOf(manager.activeItem) === -1) {
+          const index = Math.max(0, Math.min(items.length - 1, manager.activeItemIndex || 0));
+
+          if (items[index] && !items[index].disabled) {
+            manager.setActiveItem(index);
+          } else {
+            manager.setNextItemActive();
+          }
+        }
+      });
+    });
   }
 
   ngOnDestroy() {
