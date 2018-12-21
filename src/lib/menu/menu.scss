@@ -5,6 +5,7 @@
 @import '../../cdk/a11y/a11y';
 
 $mat-menu-vertical-padding: 8px !default;
+$mat-menu-item-vertical-padding: 8px !default;
 $mat-menu-border-radius: 4px !default;
 $mat-menu-submenu-indicator-size: 10px !default;
 
@@ -27,8 +28,16 @@ $mat-menu-submenu-indicator-size: 10px !default;
 
 .mat-menu-item {
   @include mat-button-reset();
-  @include mat-menu-item-base();
+  @include mat-menu-item-base(flex, false, auto, normal);
   position: relative;
+
+  // TODO(crisbeto): most of these can be moved into the `mat-menu-item-base`
+  // once we start allowing text wrapping in mat-select and mat-autocomplete.
+  align-items: center;
+  white-space: normal;
+  min-height: $mat-menu-item-height;
+  padding-top: $mat-menu-item-vertical-padding;
+  padding-bottom: $mat-menu-item-vertical-padding;
 
   @include cdk-high-contrast {
     &.cdk-program-focused,
