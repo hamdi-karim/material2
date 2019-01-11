@@ -75,7 +75,7 @@ import {
   mixinTabIndex,
 } from '@angular/material/core';
 import {MatFormField, MatFormFieldControl} from '@angular/material/form-field';
-import {defer, merge, Observable, Subject} from 'rxjs';
+import {defer, merge, Observable, Subject, asapScheduler} from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -84,6 +84,7 @@ import {
   switchMap,
   take,
   takeUntil,
+  delay,
 } from 'rxjs/operators';
 import {matSelectAnimations} from './select-animations';
 import {
@@ -941,7 +942,11 @@ export class MatSelect extends _MatSelectMixinBase implements AfterContentInit, 
     // Listen to changes in the internal state of the options and react accordingly.
     // Handles cases like the labels of the selected options changing.
     merge(...this.options.map(option => option._stateChanges))
-      .pipe(takeUntil(changedOrDestroyed))
+      // The `delay` is necessary, because the option's label can change in the DOM as a
+      // result of an expression being re-evaluated which in turn will change the select's
+      // trigger value and cause a "changed after checked error". We use the `asapScheduler`
+      // so that `fakeAsync` tests don't start failing as a result.
+      .pipe(delay(0, asapScheduler), takeUntil(changedOrDestroyed))
       .subscribe(() => {
         this._changeDetectorRef.markForCheck();
         this.stateChanges.next();
