@@ -74,7 +74,8 @@ export declare class MatListOption extends _MatListOptionMixinBase implements Af
 }
 
 export declare class MatListSubheaderCssMatStyler {
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MatListSubheaderCssMatStyler, "[mat-subheader], [matSubheader]", never, {}, {}, never>;
+    id: string;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<MatListSubheaderCssMatStyler, "[mat-subheader], [matSubheader]", never, { 'id': "id" }, {}, never>;
     static ɵfac: i0.ɵɵFactoryDef<MatListSubheaderCssMatStyler>;
 }
 
@@ -88,9 +89,12 @@ export declare class MatNavList extends _MatListMixinBase implements CanDisableR
 }
 
 export declare class MatSelectionList extends _MatSelectionListMixinBase implements CanDisableRipple, AfterContentInit, ControlValueAccessor, OnDestroy, OnChanges {
+    _header?: MatListSubheaderCssMatStyler;
     _keyManager: FocusKeyManager<MatListOption>;
     _onTouched: () => void;
     _value: string[] | null;
+    ariaLabel: string;
+    ariaLabelledby: string;
     color: ThemePalette;
     compareWith: (o1: any, o2: any) => boolean;
     disabled: boolean;
@@ -100,6 +104,7 @@ export declare class MatSelectionList extends _MatSelectionListMixinBase impleme
     tabIndex: number;
     constructor(_element: ElementRef<HTMLElement>, tabIndex: string);
     _emitChangeEvent(option: MatListOption): void;
+    _getAriaLabelledby(): string | null;
     _keydown(event: KeyboardEvent): void;
     _removeOptionFromList(option: MatListOption): MatListOption | null;
     _reportValueChange(): void;
@@ -116,7 +121,7 @@ export declare class MatSelectionList extends _MatSelectionListMixinBase impleme
     writeValue(values: string[]): void;
     static ngAcceptInputType_disableRipple: BooleanInput;
     static ngAcceptInputType_disabled: BooleanInput;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<MatSelectionList, "mat-selection-list", ["matSelectionList"], { 'disableRipple': "disableRipple", 'tabIndex': "tabIndex", 'color': "color", 'compareWith': "compareWith", 'disabled': "disabled" }, { 'selectionChange': "selectionChange" }, ["options"]>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<MatSelectionList, "mat-selection-list", ["matSelectionList"], { 'disableRipple': "disableRipple", 'tabIndex': "tabIndex", 'color': "color", 'compareWith': "compareWith", 'disabled': "disabled", 'ariaLabel': "aria-label", 'ariaLabelledby': "aria-labelledby" }, { 'selectionChange': "selectionChange" }, ["_header", "options"]>;
     static ɵfac: i0.ɵɵFactoryDef<MatSelectionList>;
 }
 

@@ -53,7 +53,11 @@ import {
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-import {MatListAvatarCssMatStyler, MatListIconCssMatStyler} from './list';
+import {
+  MatListAvatarCssMatStyler,
+  MatListIconCssMatStyler,
+  MatListSubheaderCssMatStyler,
+} from './list';
 
 
 /** @docs-private */
@@ -326,6 +330,8 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
     '(keydown)': '_keydown($event)',
     'aria-multiselectable': 'true',
     '[attr.aria-disabled]': 'disabled.toString()',
+    '[attr.aria-label]': 'ariaLabel || null',
+    '[attr.aria-labelledby]': '_getAriaLabelledby()',
   },
   template: '<ng-content></ng-content>',
   styleUrls: ['list.css'],
@@ -341,6 +347,10 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
 
   /** The option components contained within this selection-list. */
   @ContentChildren(MatListOption, {descendants: true}) options: QueryList<MatListOption>;
+
+  /** Reference to the first header in the list. */
+  @ContentChild(MatListSubheaderCssMatStyler, {static: false})
+  _header?: MatListSubheaderCssMatStyler;
 
   /** Emits a change event whenever the selected state of an option changes. */
   @Output() readonly selectionChange: EventEmitter<MatSelectionListChange> =
@@ -372,6 +382,12 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
     this._markOptionsForCheck();
   }
   private _disabled: boolean = false;
+
+  /** Aria label of the list. */
+  @Input('aria-label') ariaLabel: string = '';
+
+  /** Input that can be used to specify the `aria-labelledby` attribute. */
+  @Input('aria-labelledby') ariaLabelledby: string = '';
 
   /** The currently selected options. */
   selectedOptions: SelectionModel<MatListOption> = new SelectionModel<MatListOption>(true);
@@ -558,6 +574,15 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
   /** Implemented as part of ControlValueAccessor. */
   registerOnTouched(fn: () => void): void {
     this._onTouched = fn;
+  }
+
+  /** Gets the value for the `aria-labelledby` attribute. */
+  _getAriaLabelledby() {
+    if (this.ariaLabel || !this._header) {
+      return null;
+    }
+
+    return this.ariaLabelledby || this._header.id;
   }
 
   /** Sets the selected options based on the specified values. */

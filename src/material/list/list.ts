@@ -21,6 +21,7 @@ import {
   OnChanges,
   OnDestroy,
   ChangeDetectorRef,
+  Input,
 } from '@angular/core';
 import {
   CanDisableRipple,
@@ -43,6 +44,8 @@ const _MatListMixinBase: CanDisableRippleCtor & typeof MatListBase =
 class MatListItemBase {}
 const _MatListItemMixinBase: CanDisableRippleCtor & typeof MatListItemBase =
     mixinDisableRipple(MatListItemBase);
+
+let nextUniqueId = 0;
 
 @Component({
   selector: 'mat-nav-list',
@@ -148,9 +151,15 @@ export class MatListIconCssMatStyler {}
  */
 @Directive({
   selector: '[mat-subheader], [matSubheader]',
-  host: {'class': 'mat-subheader'}
+  host: {
+    'class': 'mat-subheader',
+    '[id]': 'id'
+  }
 })
-export class MatListSubheaderCssMatStyler {}
+export class MatListSubheaderCssMatStyler {
+  /** Unique ID for the header. */
+  @Input() id = `mat-subheader-${nextUniqueId++}`;
+}
 
 /** An item within a Material Design list. */
 @Component({
