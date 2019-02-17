@@ -285,7 +285,9 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    * ensures this is true.
    */
   _getAriaSortAttribute() {
-    if (!this._isSorted()) { return null; }
+    if (!this._isSorted()) {
+      return 'none';
+    }
 
     return this._sort.direction == 'asc' ? 'ascending' : 'descending';
   }

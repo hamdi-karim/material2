@@ -58,7 +58,7 @@ export declare class MatSortHeader extends _MatSortHeaderMixinBase implements Ca
     id: string;
     start: 'asc' | 'desc';
     constructor(_intl: MatSortHeaderIntl, changeDetectorRef: ChangeDetectorRef, _sort: MatSort, _columnDef: MatSortHeaderColumnDef);
-    _getAriaSortAttribute(): "ascending" | "descending" | null;
+    _getAriaSortAttribute(): "none" | "ascending" | "descending";
     _getArrowDirectionState(): string;
     _getArrowViewState(): string;
     _handleClick(): void;
