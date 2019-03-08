@@ -93,6 +93,7 @@ export class MatRadioChange {
   host: {
     'role': 'radiogroup',
     'class': 'mat-radio-group',
+    '[attr.name]': 'null',
   },
 })
 export class MatRadioGroup implements AfterContentInit, ControlValueAccessor {
@@ -349,6 +350,7 @@ const _MatRadioButtonMixinBase:
     '[attr.aria-label]': 'null',
     '[attr.aria-labelledby]': 'null',
     '[attr.aria-describedby]': 'null',
+    '[attr.name]': 'null',
     // Note: under normal conditions focus shouldn't land on this element, however it may be
     // programmatically set, for example inside of a focus trap, in this case we want to forward
     // the focus to the native element.
