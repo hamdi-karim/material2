@@ -4,7 +4,7 @@ export declare const MAT_INPUT_VALUE_ACCESSOR: InjectionToken<{
     value: any;
 }>;
 
-export declare class MatInput extends _MatInputMixinBase implements MatFormFieldControl<any>, OnChanges, OnDestroy, OnInit, DoCheck, CanUpdateErrorState {
+export declare class MatInput extends _MatInputMixinBase implements MatFormFieldControl<any>, OnChanges, OnDestroy, OnInit, DoCheck, AfterViewInit, CanUpdateErrorState {
     _ariaDescribedby: string;
     protected _disabled: boolean;
     protected _elementRef: ElementRef<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
@@ -33,8 +33,9 @@ export declare class MatInput extends _MatInputMixinBase implements MatFormField
     type: string;
     value: string;
     constructor(_elementRef: ElementRef<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>, _platform: Platform,
-    ngControl: NgControl, _parentForm: NgForm, _parentFormGroup: FormGroupDirective, _defaultErrorStateMatcher: ErrorStateMatcher, inputValueAccessor: any, _autofillMonitor: AutofillMonitor, ngZone: NgZone);
-    protected _dirtyCheckNativeValue(): void;
+    ngControl: NgControl, _parentForm: NgForm, _parentFormGroup: FormGroupDirective, _defaultErrorStateMatcher: ErrorStateMatcher, inputValueAccessor: any, _autofillMonitor: AutofillMonitor, ngZone: NgZone,
+    _changeDetectorRef?: ChangeDetectorRef | undefined);
+    protected _dirtyCheckNativeValue(): boolean;
     _focusChanged(isFocused: boolean): void;
     protected _isBadInput(): boolean;
     protected _isNeverEmpty(): boolean;
@@ -42,6 +43,7 @@ export declare class MatInput extends _MatInputMixinBase implements MatFormField
     _onInput(): void;
     protected _validateType(): void;
     focus(options?: FocusOptions): void;
+    ngAfterViewInit(): void;
     ngDoCheck(): void;
     ngOnChanges(): void;
     ngOnDestroy(): void;
