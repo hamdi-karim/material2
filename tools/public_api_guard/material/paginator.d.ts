@@ -16,6 +16,7 @@ export declare class MatPaginator extends _MatPaginatorBase implements OnInit, O
     pageIndex: number;
     pageSize: number;
     pageSizeOptions: number[];
+    selectConfig: MatPaginatorSelectConfig;
     showFirstLastButtons: boolean;
     constructor(_intl: MatPaginatorIntl, _changeDetectorRef: ChangeDetectorRef);
     _changePageSize(pageSize: number): void;
@@ -43,6 +44,13 @@ export declare class MatPaginatorIntl {
 }
 
 export declare class MatPaginatorModule {
+}
+
+export interface MatPaginatorSelectConfig {
+    disableOptionCentering?: boolean;
+    panelClass?: string | string[] | Set<string> | {
+        [key: string]: any;
+    };
 }
 
 export declare class PageEvent {
