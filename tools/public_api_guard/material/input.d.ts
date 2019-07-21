@@ -33,9 +33,10 @@ export declare class MatInput extends _MatInputMixinBase implements MatFormField
     type: string;
     value: string;
     constructor(_elementRef: ElementRef<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>, _platform: Platform,
-    ngControl: NgControl, _parentForm: NgForm, _parentFormGroup: FormGroupDirective, _defaultErrorStateMatcher: ErrorStateMatcher, inputValueAccessor: any, _autofillMonitor: AutofillMonitor, ngZone: NgZone);
+    ngControl: NgControl, _parentForm: NgForm, _parentFormGroup: FormGroupDirective, _defaultErrorStateMatcher: ErrorStateMatcher, inputValueAccessor: any, _autofillMonitor: AutofillMonitor, ngZone: NgZone, _formField?: MatFormField | undefined);
     protected _dirtyCheckNativeValue(): void;
     _focusChanged(isFocused: boolean): void;
+    _getNativePlaceholderValue(): string | null;
     protected _isBadInput(): boolean;
     protected _isNeverEmpty(): boolean;
     protected _isTextarea(): boolean;
