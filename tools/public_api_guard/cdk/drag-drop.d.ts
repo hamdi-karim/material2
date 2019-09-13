@@ -51,6 +51,7 @@ export interface CdkDragDrop<T, O = T> {
         x: number;
         y: number;
     };
+    event: MouseEvent | TouchEvent;
     isPointerOverContainer: boolean;
     item: CdkDrag;
     previousContainer: CdkDropList<O>;
@@ -62,6 +63,7 @@ export interface CdkDragEnd<T = any> {
         x: number;
         y: number;
     };
+    event: MouseEvent | TouchEvent;
     source: CdkDrag<T>;
 }
 
@@ -115,6 +117,7 @@ export declare class CdkDragPreview<T = any> {
 }
 
 export interface CdkDragRelease<T = any> {
+    event: MouseEvent | TouchEvent;
     source: CdkDrag<T>;
 }
 
@@ -126,6 +129,7 @@ export interface CdkDragSortEvent<T = any, I = T> {
 }
 
 export interface CdkDragStart<T = any> {
+    event: MouseEvent | TouchEvent;
     source: CdkDrag<T>;
 }
 
@@ -203,10 +207,12 @@ export declare class DragRef<T = any> {
         previousContainer: DropListRef;
         distance: Point;
         isPointerOverContainer: boolean;
+        event: TouchEvent | MouseEvent;
     }>;
     ended: Subject<{
         source: DragRef<any>;
         distance: Point;
+        event: TouchEvent | MouseEvent;
     }>;
     entered: Subject<{
         container: DropListRef;
@@ -233,9 +239,11 @@ export declare class DragRef<T = any> {
     }>;
     released: Subject<{
         source: DragRef<any>;
+        event: TouchEvent | MouseEvent;
     }>;
     started: Subject<{
         source: DragRef<any>;
+        event: TouchEvent | MouseEvent;
     }>;
     constructor(element: ElementRef<HTMLElement> | HTMLElement, _config: DragRefConfig, _document: Document, _ngZone: NgZone, _viewportRuler: ViewportRuler, _dragDropRegistry: DragDropRegistry<DragRef, DropListRef>);
     _sortFromLastPointerPosition(): void;
@@ -275,6 +283,7 @@ export declare class DropListRef<T = any> {
         previousContainer: DropListRef<any>;
         isPointerOverContainer: boolean;
         distance: Point;
+        event: TouchEvent | MouseEvent;
     }>;
     element: HTMLElement | ElementRef<HTMLElement>;
     enterPredicate: (drag: DragRef, drop: DropListRef) => boolean;
@@ -309,7 +318,7 @@ export declare class DropListRef<T = any> {
     _stopScrolling(): void;
     connectedTo(connectedTo: DropListRef[]): this;
     dispose(): void;
-    drop(item: DragRef, currentIndex: number, previousContainer: DropListRef, isPointerOverContainer: boolean, distance: Point): void;
+    drop(item: DragRef, currentIndex: number, previousContainer: DropListRef, isPointerOverContainer: boolean, distance: Point, event?: MouseEvent | TouchEvent): void;
     enter(item: DragRef, pointerX: number, pointerY: number): void;
     exit(item: DragRef): void;
     getItemIndex(item: DragRef): number;
