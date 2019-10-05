@@ -28,7 +28,6 @@
     {{_firstRowOffset >= labelMinRequiredCells ? label : ''}}
   </td>
   <td *ngFor="let item of row; let colIndex = index"
-      role="gridcell"
       class="mat-calendar-body-cell mat-focus-indicator"
       [ngClass]="item.cssClasses"
       [tabindex]="_isActiveCell(rowIndex, colIndex) ? 0 : -1"
