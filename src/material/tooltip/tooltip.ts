@@ -282,10 +282,6 @@ export class MatTooltip implements OnDestroy, OnInit {
           _ngZone.run(() => this.show());
         }
     });
-
-    _ngZone.runOutsideAngular(() => {
-      _elementRef.nativeElement.addEventListener('keydown', this._handleKeydown);
-    });
   }
 
   /**
@@ -310,7 +306,6 @@ export class MatTooltip implements OnDestroy, OnInit {
     }
 
     // Clean up the event listeners set in the constructor
-    nativeElement.removeEventListener('keydown', this._handleKeydown);
     this._passiveListeners.forEach((listener, event) => {
       nativeElement.removeEventListener(event, listener, passiveListenerOptions);
     });
@@ -360,18 +355,6 @@ export class MatTooltip implements OnDestroy, OnInit {
     return !!this._tooltipInstance && this._tooltipInstance.isVisible();
   }
 
-  /**
-   * Handles the keydown events on the host element.
-   * Needs to be an arrow function so that we can use it in addEventListener.
-   */
-  private _handleKeydown = (event: KeyboardEvent) => {
-    if (this._isTooltipVisible() && event.keyCode === ESCAPE && !hasModifierKey(event)) {
-      event.preventDefault();
-      event.stopPropagation();
-      this._ngZone.run(() => this.hide(0));
-    }
-  }
-
   /** Create the overlay config and position strategy */
   private _createOverlay(): OverlayRef {
     if (this._overlayRef) {
@@ -399,7 +382,7 @@ export class MatTooltip implements OnDestroy, OnInit {
       }
     });
 
-    this._overlayRef = this._overlay.create({
+    const overlayRef = this._overlayRef = this._overlay.create({
       direction: this._dir,
       positionStrategy: strategy,
       panelClass: TOOLTIP_PANEL_CLASS,
@@ -408,11 +391,21 @@ export class MatTooltip implements OnDestroy, OnInit {
 
     this._updatePosition();
 
-    this._overlayRef.detachments()
+    overlayRef.keydownEvents()
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(event => {
+        if (this._isTooltipVisible() && event.keyCode === ESCAPE && !hasModifierKey(event)) {
+          event.preventDefault();
+          event.stopPropagation();
+          this._ngZone.run(() => this.hide(0));
+        }
+      });
+
+    overlayRef.detachments()
       .pipe(takeUntil(this._destroyed))
       .subscribe(() => this._detach());
 
-    return this._overlayRef;
+    return overlayRef;
   }
 
   /** Detaches the currently-attached tooltip. */
