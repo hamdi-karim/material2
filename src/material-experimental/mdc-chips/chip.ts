@@ -136,13 +136,11 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
     /** Whether animations for the chip are enabled. */
   _animationsDisabled: boolean;
 
-  // We have to use a `HostListener` here in order to support both Ivy and ViewEngine.
-  // In Ivy the `host` bindings will be merged when this class is extended, whereas in
-  // ViewEngine they're overwritten.
-  // TODO(mmalerba): we move this back into `host` once Ivy is turned on by default.
-  // tslint:disable-next-line:no-host-decorator-in-concrete
-  @HostListener('transitionend', ['$event'])
-  _handleTransitionEnd(event: TransitionEvent) {
+  /**
+   * Event listener for `transitionend` events. Needs to be an arrow
+   * function so we can pass it easily into `addEventListener`.
+   */
+  private _handleTransitionEnd = (event: TransitionEvent) => {
     this._chipFoundation.handleTransitionEnd(event);
   }
 
@@ -305,7 +303,7 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
 
  constructor(
     public _changeDetectorRef: ChangeDetectorRef,
-    readonly _elementRef: ElementRef,
+    readonly _elementRef: ElementRef<HTMLElement>,
     protected _ngZone: NgZone,
     @Optional() private _dir: Directionality,
     // @breaking-change 8.0.0 `animationMode` parameter to become required.
@@ -313,6 +311,10 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
     super(_elementRef);
     this._chipFoundation = new MDCChipFoundation(this._chipAdapter);
     this._animationsDisabled = animationMode === 'NoopAnimations';
+
+    _ngZone.runOutsideAngular(() => {
+      _elementRef.nativeElement.addEventListener('transitionend', this._handleTransitionEnd);
+    });
   }
 
   ngAfterContentInit() {
@@ -327,6 +329,7 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
     this.destroyed.emit({chip: this});
     this._destroyed.next();
     this._destroyed.complete();
+    this._elementRef.nativeElement.removeEventListener('transitionend', this._handleTransitionEnd);
     this._chipFoundation.destroy();
   }
 
