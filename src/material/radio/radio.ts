@@ -192,6 +192,7 @@ export class MatRadioGroup implements AfterContentInit, ControlValueAccessor {
     this._selected = selected;
     this.value = selected ? selected.value : null;
     this._checkSelectedRadioButton();
+    this._markRadiosForCheck();
   }
 
   /** Whether the radio group is disabled */
@@ -599,6 +600,21 @@ export class MatRadioButton extends _MatRadioButtonMixinBase
       this._disabled = value;
       this._changeDetector.markForCheck();
     }
+  }
+
+  /** Gets the tabindex for the underlying input element. */
+  _getInputTabindex(): number {
+    const group = this.radioGroup;
+
+    // Implement a roving tabindex if the button is inside a group. For most cases this isn't
+    // necessary, because the browser handles the tab order for inputs inside a group automatically,
+    // but we need an explicitly higher tabindex for the selected button in order for things like
+    // the focus trap to pick it up correctly.
+    if (!group || !group.selected || this.disabled) {
+      return this.tabIndex;
+    }
+
+    return group.selected === this ? this.tabIndex : -1;
   }
 
   static ngAcceptInputType_checked: BooleanInput;

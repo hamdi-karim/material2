@@ -29,6 +29,7 @@ export declare class MatRadioButton extends _MatRadioButtonMixinBase implements 
     get value(): any;
     set value(value: any);
     constructor(radioGroup: MatRadioGroup, elementRef: ElementRef, _changeDetector: ChangeDetectorRef, _focusMonitor: FocusMonitor, _radioDispatcher: UniqueSelectionDispatcher, _animationMode?: string | undefined, _providerOverride?: MatRadioDefaultOptions | undefined);
+    _getInputTabindex(): number;
     _isRippleDisabled(): boolean;
     _markForCheck(): void;
     _onInputChange(event: Event): void;
