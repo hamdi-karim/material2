@@ -285,6 +285,22 @@ describe('CdkTable', () => {
         ['Footer C', 'Footer B'],
       ]);
     });
+
+    it('should be able to show a message when no data is being displayed', () => {
+      expect(tableElement.textContent!.trim()).not.toContain('No data');
+
+      const originalData = dataSource.data;
+      dataSource.data = [];
+      fixture.detectChanges();
+
+      expect(tableElement.textContent!.trim()).toContain('No data');
+
+      dataSource.data = originalData;
+      fixture.detectChanges();
+
+      expect(tableElement.textContent!.trim()).not.toContain('No data');
+    });
+
   });
 
   it('should render no rows when the data is null', fakeAsync(() => {
@@ -480,6 +496,28 @@ describe('CdkTable', () => {
       ['a_2', 'b_2', 'c_2'],
       ['a_3', 'b_3', 'c_3'],
     ]);
+  });
+
+  it('should be able to show a message when no data is being displayed in a native table', () => {
+    const thisFixture = createComponent(NativeHtmlTableApp);
+    thisFixture.detectChanges();
+
+    // Assert that the data is inside the tbody specifically.
+    const tbody = thisFixture.nativeElement.querySelector('tbody');
+    const dataSource = thisFixture.componentInstance.dataSource!;
+    const originalData = dataSource.data;
+
+    expect(tbody.textContent!.trim()).not.toContain('No data');
+
+    dataSource.data = [];
+    thisFixture.detectChanges();
+
+    expect(tbody.textContent!.trim()).toContain('No data');
+
+    dataSource.data = originalData;
+    thisFixture.detectChanges();
+
+    expect(tbody.textContent!.trim()).not.toContain('No data');
   });
 
   it('should apply correct roles for native table elements', () => {
@@ -1459,6 +1497,8 @@ class BooleanDataSource extends DataSource<boolean> {
                *cdkRowDef="let row; columns: columnsToRender"></cdk-row>
       <cdk-footer-row class="customFooterRowClass"
                       *cdkFooterRowDef="columnsToRender"></cdk-footer-row>
+
+      <div *cdkEmptyPlaceholderRowDef>No data</div>
     </cdk-table>
   `
 })
@@ -2266,6 +2306,9 @@ class OuterTableApp {
 
       <tr cdk-header-row *cdkHeaderRowDef="columnsToRender"></tr>
       <tr cdk-row *cdkRowDef="let row; columns: columnsToRender" class="customRowClass"></tr>
+      <tr *cdkEmptyPlaceholderRowDef>
+        <td>No data</td>
+      </tr>
     </table>
   `
 })
