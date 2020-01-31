@@ -351,7 +351,8 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
 
     if (activeEl && this._elementRef.nativeElement.contains(activeEl)) {
       if (this._elementFocusedBeforeDrawerWasOpened instanceof HTMLElement) {
-        this._focusMonitor.focusVia(this._elementFocusedBeforeDrawerWasOpened, this._openedVia);
+        this._focusMonitor.focusVia(this._elementFocusedBeforeDrawerWasOpened,
+            this._openedVia || 'program');
       } else {
         this._elementRef.nativeElement.blur();
       }

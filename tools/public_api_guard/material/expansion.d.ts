@@ -111,7 +111,7 @@ export declare class MatExpansionPanelHeader implements OnDestroy, FocusableOpti
     _keydown(event: KeyboardEvent): void;
     _showToggle(): boolean;
     _toggle(): void;
-    focus(origin?: FocusOrigin, options?: FocusOptions): void;
+    focus(origin?: NonNullable<FocusOrigin>, options?: FocusOptions): void;
     ngOnDestroy(): void;
     static ɵcmp: i0.ɵɵComponentDefWithMeta<MatExpansionPanelHeader, "mat-expansion-panel-header", never, { "expandedHeight": "expandedHeight"; "collapsedHeight": "collapsedHeight"; }, {}, never>;
     static ɵfac: i0.ɵɵFactoryDef<MatExpansionPanelHeader>;
