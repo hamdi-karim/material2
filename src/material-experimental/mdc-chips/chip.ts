@@ -227,8 +227,8 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
    * @docs-private
    */
   get rippleDisabled(): boolean {
-    return this.disabled || this.disableRipple || !!this.rippleConfig.disabled ||
-      this._isBasicChip();
+    return this.disabled || this.disableRipple || this._animationsDisabled ||
+      !!this.rippleConfig.disabled || this._isBasicChip();
   }
 
   /** The chip's leading icon. */
