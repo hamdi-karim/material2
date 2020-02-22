@@ -1,9 +1,8 @@
 import {TestBed, async, inject} from '@angular/core/testing';
 import {Component, ViewEncapsulation, ViewChild, ElementRef} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {Platform} from '@angular/cdk/platform';
+import {Platform, getShadowRoot} from '@angular/cdk/platform';
 import {CommonModule} from '@angular/common';
-import {_getShadowRoot} from './progress-spinner';
 import {
   MatProgressSpinnerModule,
   MatProgressSpinner,
@@ -366,7 +365,7 @@ describe('MatProgressSpinner', () => {
     fixture.detectChanges();
 
     const spinner = fixture.debugElement.query(By.css('mat-progress-spinner'))!.nativeElement;
-    const shadowRoot = _getShadowRoot(spinner, document) as HTMLElement;
+    const shadowRoot = getShadowRoot(spinner) as HTMLElement;
 
     expect(shadowRoot.querySelector('style[mat-spinner-animation="27"]')).toBeTruthy();
 
@@ -387,7 +386,7 @@ describe('MatProgressSpinner', () => {
     fixture.detectChanges();
 
     const spinner = fixture.debugElement.query(By.css('mat-progress-spinner'))!.nativeElement;
-    const shadowRoot = _getShadowRoot(spinner, document) as HTMLElement;
+    const shadowRoot = getShadowRoot(spinner) as HTMLElement;
 
     expect(shadowRoot.querySelectorAll('style[mat-spinner-animation="39"]').length).toBe(1);
 
@@ -418,7 +417,7 @@ describe('MatProgressSpinner', () => {
       fixture.detectChanges();
 
       const spinner = fixture.componentInstance.spinner.nativeElement;
-      const shadowRoot = _getShadowRoot(spinner, document) as HTMLElement;
+      const shadowRoot = getShadowRoot(spinner) as HTMLElement;
 
       expect(shadowRoot.querySelector('style[mat-spinner-animation="27"]')).toBeTruthy();
 

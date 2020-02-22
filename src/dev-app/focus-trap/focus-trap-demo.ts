@@ -17,7 +17,7 @@ import {
   QueryList,
 } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {_supportsShadowDom} from '@angular/cdk/platform';
+import {supportsShadowDom} from '@angular/cdk/platform';
 
 @Component({
   selector: 'shadow-dom-demo',
@@ -39,7 +39,7 @@ export class FocusTrapDemo implements AfterViewInit {
   @ViewChildren(CdkTrapFocus)
   private _focusTraps: QueryList<CdkTrapFocus>;
 
-  _supportsShadowDom = _supportsShadowDom();
+  _supportsShadowDom = supportsShadowDom();
 
   constructor(public dialog: MatDialog) {}
 

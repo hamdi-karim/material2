@@ -1,7 +1,7 @@
 import {Directionality} from '@angular/cdk/bidi';
 import {DOWN_ARROW, ENTER, ESCAPE, SPACE, TAB, UP_ARROW} from '@angular/cdk/keycodes';
 import {Overlay, OverlayContainer} from '@angular/cdk/overlay';
-import {_supportsShadowDom} from '@angular/cdk/platform';
+import {supportsShadowDom} from '@angular/cdk/platform';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
 import {
   MockNgZone,
@@ -539,7 +539,7 @@ describe('MatAutocomplete', () => {
 
   it('should not close the panel when clicking on the input inside shadow DOM', fakeAsync(() => {
        // This test is only relevant for Shadow DOM-capable browsers.
-       if (!_supportsShadowDom()) {
+       if (!supportsShadowDom()) {
          return;
        }
 

@@ -1,4 +1,4 @@
-import {Platform, PlatformModule, _supportsShadowDom} from '@angular/cdk/platform';
+import {Platform, PlatformModule, supportsShadowDom} from '@angular/cdk/platform';
 import {
   createFakeEvent,
   dispatchFakeEvent,
@@ -1519,7 +1519,7 @@ describe('MatInput with appearance', () => {
 
 
   it('should calculate the outline gaps inside the shadow DOM', fakeAsync(() => {
-    if (!_supportsShadowDom()) {
+    if (!supportsShadowDom()) {
       return;
     }
 

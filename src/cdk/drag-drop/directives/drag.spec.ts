@@ -24,7 +24,7 @@ import {
 import {TestBed, ComponentFixture, fakeAsync, flush, tick} from '@angular/core/testing';
 import {DOCUMENT} from '@angular/common';
 import {ViewportRuler, ScrollingModule} from '@angular/cdk/scrolling';
-import {_supportsShadowDom} from '@angular/cdk/platform';
+import {supportsShadowDom} from '@angular/cdk/platform';
 import {of as observableOf} from 'rxjs';
 
 import {DragDropModule} from '../drag-drop-module';
@@ -4578,7 +4578,7 @@ describe('CdkDrag', () => {
 
     it('should be able to drop into a new container inside the Shadow DOM', fakeAsync(() => {
       // This test is only relevant for Shadow DOM-supporting browsers.
-      if (!_supportsShadowDom()) {
+      if (!supportsShadowDom()) {
         return;
       }
 
@@ -4612,7 +4612,7 @@ describe('CdkDrag', () => {
     it('should be able to drop into a new container inside the Shadow DOM and ngIf',
       fakeAsync(() => {
         // This test is only relevant for Shadow DOM-supporting browsers.
-        if (!_supportsShadowDom()) {
+        if (!supportsShadowDom()) {
           return;
         }
 

@@ -1,6 +1,6 @@
-export declare function _supportsShadowDom(): boolean;
-
 export declare function getRtlScrollAxisType(): RtlScrollAxisType;
+
+export declare function getShadowRoot(element: HTMLElement): Node | null;
 
 export declare function getSupportedInputTypes(): Set<string>;
 
@@ -35,3 +35,5 @@ export declare const enum RtlScrollAxisType {
 export declare function supportsPassiveEventListeners(): boolean;
 
 export declare function supportsScrollBehavior(): boolean;
+
+export declare function supportsShadowDom(): boolean;
